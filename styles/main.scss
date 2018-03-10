@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../myApp/modules/posts/components/posts/post.component.scss';
+@import 'variables';
+
+
+html, body {
+  background-color: $yellow;
+  height: 100%;
+  margin: 1%;
+}

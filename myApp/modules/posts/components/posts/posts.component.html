@@ -1,0 +1,20 @@
+<div>
+    <button class="btn btn-primary" ng-click="$ctrl.sendPost()">Post</button>
+</div>
+
+<div class="container-fluid posts">
+    <div class="row justify-content-center">
+        <div class="card w-75 spaced-card" ng-repeat="post in $ctrl.posts">
+            <div class="card-header card-header-centered">
+                <h1>{{ post.title }}</h1>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ post.id }}</h6>
+                <p class="card-text">{{ post.body }}</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+$gray: gray;
+
+.posts {
+    background: $gray;
+    > .row {
+        .card.spaced-card {
+            margin : 10px 0;
+            h1 {
+                color: $gray;
+            }
+            .card-header.card-header-centered{
+                text-align: center;
+            }
+        }
+    }
+}
