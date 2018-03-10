@@ -2,6 +2,25 @@
     <button class="btn btn-primary" ng-click="$ctrl.sendPost()">Post</button>
 </div>
 
+<!-- One Post -->
+<div class="container-fluid posts">
+    <div class="row justify-content-center">
+        <div class="card w-75 spaced-card">
+            <div class="card-header card-header-centered">
+                <h1> {{ $ctrl.firstPost.id }} - {{ $ctrl.firstPost.title }}</h1>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ $ctrl.firstPost.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ $ctrl.firstPost.id }}</h6>
+                <p class="card-text">{{ $ctrl.firstPost.body }}</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- All Posts -->
 <div class="container-fluid posts">
     <div class="row justify-content-center">
         <div class="card w-75 spaced-card" ng-repeat="post in $ctrl.posts">

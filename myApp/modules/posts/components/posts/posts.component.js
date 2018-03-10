@@ -3,36 +3,46 @@ var component = {
     controller: controller
 }
 
-controller.$inject = ['postsService'];
+controller.$inject = ['postsService','$timeout'];
 
-function controller(postsService) {
-    var vm = this;
-    vm.posts = undefined;
-    vm.sendPost = sendPost;
-    vm.$onInit = onInit;
+function controller(postsService, $timeout) {
+    var ctrl = this;
+    ctrl.posts = undefined;
+    ctrl.firstPost = undefined;
+    ctrl.sendPost = sendPost;
+    ctrl.$onInit = onInit;
 
     function onInit() {
-        getFirstPost()
-    }
+        getPost(12)
+            .then(function (post) {
+                return ctrl.firstPost = post;
+            })
 
+            $timeout(function(){
+                getPosts()
+                    .then (function(posts){
+                        return ctrl.posts = posts
+                    })
+
+            },3000)
+    }
 
     function getPosts() {
-        postsService.getPosts()
+        return postsService.getPosts()
             .then(function (posts) {
-                return vm.posts = posts
+                return posts
             })
     }
 
-    function getFirstPost() {
-        postsService.getPosts()
+    function getPost(id) {
+        return postsService.getPosts()
             .then(function (response) {
-                return postsService.getFirstPost(response)
+                return postsService.getPostById(response, id)
             })
-            .then(function(response) {
-                console.warn(response); 
-                debugger;
+            .then(function (response) {
+                return response
             })
-            .catch(function(err){
+            .catch(function (err) {
                 console.warn(err);
             })
     }
@@ -41,7 +51,7 @@ function controller(postsService) {
     function sendPost() {
         postsService.postPost()
             .then(function (response) {
-                vm.posts.unshift(response)
+                ctrl.posts.unshift(response)
             })
     }
 }

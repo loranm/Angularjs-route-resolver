@@ -1,43 +1,42 @@
-(function(){
-    'use strict'; 
+(function () {
+    'use strict';
 
     postsService.$inject = ['$http'];
 
-    function postsService ($http){
+    function postsService($http) {
         var url = "https://jsonplaceholder.typicode.com/posts/"
         return {
             getPosts: getPosts,
-            getFirstPost: getFirstPost,
+            getPostById: getPostById,
             postPost: postPost
         }
 
-        function getPosts(){
+        function getPosts() {
             return $http.get(url)
-                .then (getPostsSuccess)
+                .then(getPostsSuccess)
                 .catch(getPostsError)
         }
 
-        function getPostsSuccess (response) {
+        function getPostsSuccess(response) {
             return response.data
         }
 
-        function getPostsError (err){
+        function getPostsError(err) {
             return err
         }
 
-        function getFirstPost (array){
-            var forgedUrl = url + array[0]['id']
+        function getPostById(array, id) {
+            var forgedUrl = url + array[id - 1]['id']
             return $http.get(forgedUrl)
-                .then(getFirstPostSuccess)
-                .catch(getFirstPostError);
+                .then(getPostByIdSuccess)
+                .catch(getPostByIdError);
         }
 
-        function getFirstPostSuccess(response){
+        function getPostByIdSuccess(response) {
             return response.data
         }
 
-        function getFirstPostError(err) {
-            console.warn(err);
+        function getPostByIdError(err) {
             return err
         }
 
@@ -51,10 +50,10 @@
                 body: 'made it my self'
             };
             $http.post(url, data)
-                .then(function(response){
+                .then(function (response) {
                     deferred.resolve(data)
                 })
-                .catch(function(err){
+                .catch(function (err) {
                     debugger;
                 })
 
