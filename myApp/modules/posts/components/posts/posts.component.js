@@ -1,36 +1,23 @@
 var component = {
     templateUrl: './myApp/modules/posts/components/posts/posts.component.html',
+    bindings: {
+        posts: '<'
+    },
     controller: controller
 }
 
-controller.$inject = ['postsService','$timeout'];
 
-function controller(postsService, $timeout) {
+function controller() {
     var ctrl = this;
-    ctrl.posts = undefined;
     ctrl.firstPost = undefined;
     ctrl.sendPost = sendPost;
-    ctrl.$onInit = onInit;
 
-    function onInit() {
-        getPost(12)
-            .then(function (post) {
-                return ctrl.firstPost = post;
-            })
-
-            $timeout(function(){
-                getPosts()
-                    .then (function(posts){
-                        return ctrl.posts = posts
-                    })
-
-            },3000)
-    }
-
+    
+    //useless for now since we call postsService.getPosts() in $resolve
     function getPosts() {
         return postsService.getPosts()
             .then(function (posts) {
-                return posts
+                return posts;
             })
     }
 
@@ -47,11 +34,10 @@ function controller(postsService, $timeout) {
             })
     }
 
-
     function sendPost() {
         postsService.postPost()
             .then(function (response) {
-                ctrl.posts.unshift(response)
+                ctrl.posts.unshift(response);
             })
     }
 }
