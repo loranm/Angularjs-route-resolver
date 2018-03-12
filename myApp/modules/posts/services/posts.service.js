@@ -7,12 +7,19 @@
         var url = "https://jsonplaceholder.typicode.com/posts/"
         return {
             getPosts: getPosts,
+            getPostComments: getPostComments,
             getPostById: getPostById,
             postPost: postPost
         }
 
         function getPosts() {
             return $http.get(url)
+                .then(getPostsSuccess)
+                .catch(getPostsError)
+        }
+
+        function getPostComments(id){
+            return $http.get(url + id +  '/comments/')
                 .then(getPostsSuccess)
                 .catch(getPostsError)
         }
@@ -39,6 +46,7 @@
         function getPostByIdError(err) {
             return err
         }
+
 
         function postPost() {
             var deferred = $q.defer();

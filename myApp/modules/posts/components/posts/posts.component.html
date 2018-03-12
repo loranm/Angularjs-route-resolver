@@ -1,7 +1,7 @@
 <!-- All Posts -->
 <div class="container-fluid posts">
     <div class="row justify-content-center">
-        <div class="card w-75 spaced-card" ng-repeat="post in $ctrl.posts">
+        <div class="card w-75 spaced-card" ng-repeat="post in $ctrl.posts" ng-click="$ctrl.getComments(post.id)">
             <div class="card-header card-header-centered">
                 <h1>{{ post.title }}</h1>
             </div>
@@ -11,6 +11,12 @@
                 <p class="card-text">{{ post.body }}</p>
                 <a href="#" class="card-link">Card link</a>
                 <a href="#" class="card-link">Another link</a>
+            </div>
+
+            <div ng-if="post.comments">
+                <div ng-repeat="comment in post.comments">{{ comment.body }}</div>
+                <hr>
+
             </div>
         </div>
     </div>

@@ -6,13 +6,23 @@ var component = {
     controller: controller
 }
 
-
-function controller() {
+controller.$inject = ['postsService', '$location']
+function controller(postsService, $location) {
     var ctrl = this;
-    ctrl.firstPost = undefined;
     ctrl.sendPost = sendPost;
+    ctrl.getComments = getComments;
 
-    
+    function getComments(id) {
+        return postsService.getPostComments(id)
+            .then(function (comments) {
+                var index = ctrl.posts.findIndex(function (post) {
+                    return post.id === id;
+                })
+                ctrl.posts[index].comments = comments;
+            })
+    }
+
+
     //useless for now since we call postsService.getPosts() in $resolve
     function getPosts() {
         return postsService.getPosts()
