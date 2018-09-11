@@ -1,17 +1,64 @@
-(function () {
-    'use strict';
+(function() {
+  "use strict";
 
-    var component = {
-        template: '{{ $ctrl.title }}',
-        controller: controller
+  var component = {
+    templateUrl: "/myApp/modules/home/home.component.html",
+    controller: controller
+  };
+
+  function controller($q, $http) {
+    var ctrl = this;
+    var url = "https://jsonplaceholder.typicode.com/posts";
+
+    ctrl.$onInit = onInit;
+    ctrl.state = {
+      title: "Home component",
+      posts: []
     };
 
-    function controller() {
-        var ctrl = this;
-        ctrl.title = 'Home component'
+    function onInit() {
+      getPosts()
+        .then(posts => {
+          return getDetails(posts);
+        })
+        .then(posts => {
+          var _state = Object.assign({}, ctrl.state);
+          _state.posts = [...posts];
+          setState(_state);
+        });
     }
 
-    angular
-        .module('HomeModule')
-        .component('homeComponent', component);
-})()
+    function getPosts() {
+      const deferred = $q.defer();
+
+      $http.get(url).then(posts => {
+        const uris = posts.data.map(post => {
+          return `${url}/${post.id}`;
+        });
+        deferred.resolve(uris);
+      });
+
+      return deferred.promise;
+    }
+
+    function setState(state) {
+      Object.assign(ctrl.state, state);
+    }
+
+    function getDetails(uriArray) {
+      var deferred = $q.defer();
+      const promises = uriArray.map(uri => $http.get(uri));
+      $q.all(promises).then(results => {
+        deferred.resolve(
+          results.map(result => {
+            return result.data.body;
+          })
+        );
+      });
+
+      return deferred.promise;
+    }
+  }
+
+  angular.module("HomeModule").component("homeComponent", component);
+})();

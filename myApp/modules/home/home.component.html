@@ -1,0 +1,9 @@
+<div>
+    <h1>{{$ctrl.state.title}}</h1>
+</div>
+<div ng-if="$ctrl.state.posts">
+    <posts-container props="$ctrl.state"></posts-container>
+</div>
+<div ng-if="!$ctrl.state.posts.length">
+    ...loading
+</div>
